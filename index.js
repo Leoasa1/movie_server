@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 const origin = isProduction
-	? 'https://movie-night.app'
+	? 'https://movie-night-ten.vercel.app/'
 	: 'http://localhost:3000';
 const port = process.env.PORT || 5000;
 
