@@ -3,6 +3,7 @@ const dataBase = require('./config/db');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const app = express();
+require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 const origin = isProduction
