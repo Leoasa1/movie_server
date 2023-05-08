@@ -6,7 +6,7 @@ const app = express();
 
 const isProduction = process.env.NODE_ENV === 'production';
 const origin = isProduction
-	? 'https://movie-night.com'
+	? 'https://movie-night.app'
 	: 'http://localhost:3000';
 const port = process.env.PORT || 5000;
 
@@ -17,6 +17,10 @@ app.use(cookieParser());
 app.use(express.json());
 app.use('/movies', require('./routes/movies'));
 app.use('/watchlist', require('./routes/watchlist'));
+
+app.get('/', (req, res) => {
+	res.send('Server Running!');
+});
 
 app.listen(port, () => {
 	console.log(
