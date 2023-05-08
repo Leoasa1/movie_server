@@ -19,7 +19,7 @@ app.use('/movies', require('./routes/movies'));
 app.use('/watchlist', require('./routes/watchlist'));
 
 app.get('/', (req, res) => {
-	res.send('Server Running!');
+	res.send(`Server Running! Is in Production: ${isProduction}`);
 });
 
 app.listen(port, () => {
