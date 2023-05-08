@@ -8,6 +8,11 @@ const port = process.env.PORT || 5000;
 
 dataBase();
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Replace * with the origin(s) you want to allow
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 app.use(cookieParser());
 app.use(express.json());
 app.use('/movies', require('./routes/movies'));
