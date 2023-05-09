@@ -8,8 +8,13 @@ const port = process.env.PORT || 5000;
 
 dataBase();
 
+
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://www.moovinight.com, https://moovinight.com');
+  const allowedOrigins = ['https://www.moovinight.com', 'https://moovinight.com'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
