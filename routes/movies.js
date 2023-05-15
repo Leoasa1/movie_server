@@ -26,14 +26,12 @@ const getRandomMovies = async () => {
 		method: 'GET',
 		url: `https://moviesminidatabase.p.rapidapi.com/movie/byGen/${randomGenre}`,
 		headers: {
-			'X-RapidAPI-Key':
-				process.env.X_RAPIDAPI_KEY,
+			'X-RapidAPI-Key': process.env.X_RAPIDAPI_KEY,
 			'X-RapidAPI-Host': 'moviesminidatabase.p.rapidapi.com',
 		},
 	};
 
-	const movieIds = await Axios
-		.request(optionsIds)
+	const movieIds = await Axios.request(optionsIds)
 		.then((response) => {
 			return response.data.results;
 		})
@@ -41,25 +39,24 @@ const getRandomMovies = async () => {
 			return console.error(error);
 		});
 
-    
-    const idsList = movieIds.map((item) => {return item.imdb_id;})
-    idsList.splice(24);
+	const idsList = movieIds.map((item) => {
+		return item.imdb_id;
+	});
+	idsList.splice(24);
 
-    const optionsDetails = {
+	const optionsDetails = {
 		method: 'GET',
 		url: 'https://moviesdatabase.p.rapidapi.com/titles/x/titles-by-ids',
 		params: {
-			idsList: `${idsList}`,
-			list: 'most_pop_movies',
+			idsList: `${idsList.toString()}`,
 		},
 		headers: {
-			'X-RapidAPI-Key':
-				process.env.X_RAPIDAPI_KEY,
+			'X-RapidAPI-Key': process.env.X_RAPIDAPI_KEY,
 			'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com',
 		},
 	};
-    const movies = await Axios
-		.request(optionsDetails)
+
+	const movies = await Axios.request(optionsDetails)
 		.then((response) => {
 			return response.data.results;
 		})
@@ -67,7 +64,7 @@ const getRandomMovies = async () => {
 			return console.error(error);
 		});
 
-    return {randomGenre, movies};
+	return { randomGenre, movies };
 };
 
 const getMovieByGenre = async (genre) => {
@@ -75,14 +72,12 @@ const getMovieByGenre = async (genre) => {
 		method: 'GET',
 		url: `https://moviesminidatabase.p.rapidapi.com/movie/byGen/${genre}`,
 		headers: {
-			'X-RapidAPI-Key':
-				process.env.X_RAPIDAPI_KEY,
+			'X-RapidAPI-Key': process.env.X_RAPIDAPI_KEY,
 			'X-RapidAPI-Host': 'moviesminidatabase.p.rapidapi.com',
 		},
 	};
 
-	const movieIds = await Axios
-		.request(optionsIds)
+	const movieIds = await Axios.request(optionsIds)
 		.then((response) => {
 			return response.data.results;
 		})
@@ -90,35 +85,34 @@ const getMovieByGenre = async (genre) => {
 			return console.error(error);
 		});
 
-	const idsList = movieIds.map((item) => {return item.imdb_id;})
-    idsList.splice(24);
+	const idsList = movieIds.map((item) => {
+		return item.imdb_id;
+	});
+	idsList.splice(24);
 
 	const optionsDetails = {
 		method: 'GET',
 		url: 'https://moviesdatabase.p.rapidapi.com/titles/x/titles-by-ids',
 		params: {
-			idsList: `${idsList}`,
-			list: 'most_pop_movies',
+			idsList: `${idsList.toString()}`,
 		},
 		headers: {
-			'X-RapidAPI-Key':
-				process.env.X_RAPIDAPI_KEY,
+			'X-RapidAPI-Key': process.env.X_RAPIDAPI_KEY,
 			'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com',
 		},
 	};
-    return await Axios
-		.request(optionsDetails)
+	return await Axios.request(optionsDetails)
 		.then((response) => {
 			return response.data.results;
 		})
 		.catch(function (error) {
 			return console.error(error);
 		});
-}
+};
 
 router.get('/random', async (req, res) => {
 	try {
-        const getData = await getRandomMovies();
+		const getData = await getRandomMovies();
 		res.status(200).json(getData);
 	} catch (error) {
 		console.log(error);

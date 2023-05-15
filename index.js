@@ -1,6 +1,7 @@
 const express = require('express');
 const dataBase = require('./config/db');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
@@ -8,16 +9,29 @@ const port = process.env.PORT || 5000;
 
 dataBase();
 
+const allowedOrigins = [
+	'https://www.moovinight.com',
+	'https://moovinight.com',
+	'http://localhost:3000',
+];
 
-app.use((req, res, next) => {
-  const allowedOrigins = ['https://www.moovinight.com', 'https://moovinight.com'];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
+app.use(
+	cors({
+		origin: function (origin, callback) {
+			// allow requests with no origin (like mobile apps or curl requests)
+			if (!origin) return callback(null, true);
+			if (allowedOrigins.indexOf(origin) === -1) {
+				var msg =
+					'The CORS policy for this site does not ' +
+					'allow access from the specified Origin.';
+				return callback(new Error(msg), false);
+			}
+			return callback(null, true);
+		},
+		credentials: true,
+	})
+);
+
 app.use(cookieParser());
 app.use(express.json());
 app.use('/movies', require('./routes/movies'));
